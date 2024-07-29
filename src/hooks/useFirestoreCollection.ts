@@ -8,7 +8,7 @@ import {
 } from 'firebase/firestore';
 import { db } from '../../firebase.js'; // Ensure you have configured Firebase and Firestore
 
-interface FirestoreDocument {
+export interface FirestoreDocument {
   id: string;
   [key: string]: string;
 }
