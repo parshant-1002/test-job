@@ -44,7 +44,7 @@ function NotificationsSystem() {
           data: { notificationId },
         };
         const notification = new Notification(
-          'New Notification',
+          STRINGS.NEW_NOTIFICATION,
           notificationOptions
         );
 

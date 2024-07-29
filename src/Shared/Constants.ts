@@ -29,6 +29,7 @@ const STRINGS = {
     SUCCESS: 'Notification sent successfully',
     FAILURE: 'Failed to send notification',
   },
+  NEW_NOTIFICATION: 'New Notification',
   NOTIFICATION_SYSTEM: 'Notification System',
   READ: 'Read',
   UNREAD: 'Unread',
