@@ -1,0 +1,10 @@
+{
+  "projects": {
+    "default": "test-job-cffa2"
+  },
+  "dataconnectEmulatorConfig": {
+    "postgres": {
+      "localConnectionString": "postgresql://localhost:5432?sslmode=disable"
+    }
+  }
+}

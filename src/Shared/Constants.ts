@@ -16,20 +16,21 @@ const WILDCARD_ROUTES = {
 const ROUTES_CONFIG = {
   HOMEPAGE: {
     path: ROUTES.HOMEPAGE,
-    title: 'Master Plan',
-  },
-  LOGIN: {
-    path: ROUTES.LOGIN,
-    title: 'Login',
-  },
-  REGISTER: {
-    path: ROUTES.REGISTER,
-    title: 'Register',
-  },
-  ABOUT: {
-    path: ROUTES.ABOUT,
-    title: 'About us',
+    title: 'Notifications System',
   },
 };
 
-export { ROUTES, WILDCARD_ROUTES, ROUTES_CONFIG };
+const FIREBASE_COLLECTION = {
+  NOTIFICATIONS: 'notifications',
+};
+
+const STRINGS = {
+  NOTIFICATION_SENT: {
+    SUCCESS: 'Notification sent successfully',
+    FAILURE: 'Failed to send notification',
+  },
+  NOTIFICATION_SYSTEM: 'Notification System',
+  READ: 'Read',
+  UNREAD: 'Unread',
+};
+export { ROUTES, WILDCARD_ROUTES, ROUTES_CONFIG, FIREBASE_COLLECTION, STRINGS };
