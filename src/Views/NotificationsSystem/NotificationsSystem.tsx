@@ -3,6 +3,7 @@
 import { addDoc, collection } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { db, requestPermission } from '../../../firebase.js';
+import { useSendNotificationMutation } from '../../Services/Api/module/notification/index.js';
 import { FIREBASE_COLLECTION, STRINGS } from '../../Shared/Constants.js';
 import updateFirestoreDocument from '../../Shared/Util.js';
 import useFirestoreCollection from '../../hooks/useFirestoreCollection.js';
@@ -13,6 +14,7 @@ function NotificationsSystem() {
   const { documents: notifications } = useFirestoreCollection(
     FIREBASE_COLLECTION.NOTIFICATIONS
   );
+  const [sendNotification] = useSendNotificationMutation();
 
   useEffect(() => {
     requestPermission().then((token) => setToken(token));
@@ -30,27 +32,14 @@ function NotificationsSystem() {
   const handleSendNotification = async (message: string) => {
     try {
       if (tokenData) {
-        const notificationRef = await addDoc(
-          collection(db, FIREBASE_COLLECTION.NOTIFICATIONS),
-          {
-            message,
-            read: false,
-          }
-        );
-        const notificationId = notificationRef.id;
-
-        const notificationOptions = {
-          body: message,
-          data: { notificationId },
-        };
-        const notification = new Notification(
-          'New Notification',
-          notificationOptions
-        );
-
-        notification.onclick = () => {
-          markAsRead(notificationId);
-        };
+        await sendNotification({
+          deviceToken: tokenData,
+          message,
+        }).unwrap();
+        await addDoc(collection(db, FIREBASE_COLLECTION.NOTIFICATIONS), {
+          message,
+          read: false,
+        });
       }
       console.log(STRINGS.NOTIFICATION_SENT.SUCCESS);
     } catch (err) {
