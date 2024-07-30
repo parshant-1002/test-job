@@ -1,0 +1,15 @@
+{
+  "name": "test-job",
+  "version": "1.0.0",
+  "scripts": {
+    "install:frontEnd": "cd frontEnd && npm i",
+    "install:backEnd": "cd backEnd && npm i",
+    "start:frontend": "cd frontEnd  && npm run start:dev",
+    "start:backend": "cd backEnd  && npm run start ",
+    "install": "concurrently \"npm run install:frontEnd\" \"npm run install:backEnd\"",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
