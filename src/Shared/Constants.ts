@@ -29,6 +29,8 @@ const STRINGS = {
     SUCCESS: 'Notification sent successfully',
     FAILURE: 'Failed to send notification',
   },
+  ERROR_CREATING_COLLECTION: 'Error clearing collection: ',
+  ERROR_UNKNOWN: 'An unknown error occurred',
   NOTIFICATION_SYSTEM: 'Notification System',
   READ: 'Read',
   UNREAD: 'Unread',

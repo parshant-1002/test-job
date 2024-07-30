@@ -3,10 +3,10 @@ import api from '../../api';
 export const userApi = api.injectEndpoints({
   endpoints: (build) => ({
     sendNotification: build.mutation({
-      query: ({ deviceToken, message }) => ({
+      query: ({ deviceToken, message, notificationId }) => ({
         url: '/notification',
         method: 'POST',
-        body: { deviceToken, message },
+        body: { deviceToken, message, notificationId },
       }),
     }),
   }),
