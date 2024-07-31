@@ -2,7 +2,8 @@ import { initializeApp } from 'firebase/app';
 import { connectAuthEmulator, getAuth } from 'firebase/auth';
 import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
-import registerServiceWorker from './src/register-sw';
+import { STRINGS } from './src/Shared/Constants';
+import { toast } from 'react-toastify';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -25,33 +26,52 @@ if (window.location.hostname === 'localhost' && isUseEmulators === 'true') {
   connectFirestoreEmulator(db, 'localhost', 8080);
   connectAuthEmulator(auth, 'http://localhost:9099');
 }
+export const getOrRegisterServiceWorker = () => {
+  if ('serviceWorker' in navigator) {
+    return window.navigator.serviceWorker
+      .getRegistration('/firebase-push-notification-scope')
+      .then((serviceWorker) => {
+        if (serviceWorker) return serviceWorker;
+        return window.navigator.serviceWorker.register(
+          '/firebase-messaging-sw.js',
+          {
+            scope: '/firebase-push-notification-scope',
+          }
+        );
+      });
+  }
+  throw new Error('The browser doesn`t support service worker.');
+};
 
 const requestPermission = async (): Promise<string | null> => {
   try {
     // Register the service worker
-    const registration = await registerServiceWorker();
+    const registration = await getOrRegisterServiceWorker();
     if (!registration) {
-      console.error('Service Worker registration failed.');
+      console.error(STRINGS.SERVICEWORKER_FAILED);
+      toast.error(STRINGS.SERVICEWORKER_FAILED);
       return null;
     }
 
-// Request permission to send notifications
-const token = await getToken(messaging, {
-  vapidKey,
-  serviceWorkerRegistration: registration,
-});
+    // Request permission to send notifications
+    const token = await getToken(messaging, {
+      vapidKey,
+      serviceWorkerRegistration: registration,
+    });
 
-if (token) {
-  console.log('Token received:', token);
-  return token;
-}
-console.warn('No registration token available. Request permission to generate one.');
-return null;
+    if (token) {
+      console.log(STRINGS.TOKEN_RECEIVED, token);
+      return token;
+    }
+    console.warn(STRINGS.NO_TOKEN_AVAILABLE);
+    return null;
   } catch (error: unknown) {
     if (error instanceof Error) {
-      console.error('Error getting token:', error.message);
+      console.error(STRINGS.ERROR_GETTING_TOKEN, error.message);
+      toast.error(`${STRINGS.ERROR_GETTING_TOKEN} ${error.message}`);
     } else {
-      console.error('Unexpected error:', error);
+      console.error(STRINGS.UNEXPECTED_ERROR, error);
+      toast.error(`${STRINGS.UNEXPECTED_ERROR} ${error}`);
     }
     return null;
   }

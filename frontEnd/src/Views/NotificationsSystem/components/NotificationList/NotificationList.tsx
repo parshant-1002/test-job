@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 
+import { STRINGS } from '../../../../Shared/Constants';
 import { FirestoreDocument } from '../../../../hooks/useFirestoreCollection';
 
 interface NotificationListProps {
@@ -29,7 +30,7 @@ function NotificationList({
                 notification.read ? 'text-green-500' : 'text-red-500'
               }`}
             >
-              {notification.read ? 'Read' : 'Unread'}
+              {notification.read ? STRINGS.READ : STRINGS.MARK_AS_READ}
             </span>
           </div>
         </li>

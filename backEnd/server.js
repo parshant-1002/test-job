@@ -3,10 +3,12 @@
 /***********************************
  **** node module defined here *****
  ***********************************/
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '..', 'backEnd', '.env') });
 const EXPRESS = require('express');
 
 const { SERVER } = require('./config');
+const { xDownloadOptions } = require('helmet');
 
 /** creating express server app for server */
 const app = EXPRESS();
