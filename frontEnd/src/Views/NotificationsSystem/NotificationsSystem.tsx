@@ -155,6 +155,13 @@ function NotificationsSystem() {
       dispatch(updatDeviceTokenRedux(null));
     }
   }, []);
+
+  useEffect(() => {
+    if (!tokenData && Notification.permission === NOTIFICATION_STATUS.GRANTED) {
+      handleNotificationRequest({ isShowBanner: true });
+    }
+  }, [tokenData]);
+  
   return (
     <>
       {showNotificationBanner ? (
